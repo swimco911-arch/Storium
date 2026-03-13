@@ -890,14 +890,19 @@ const CONFIG = {
   sheetUrl:       "https://docs.google.com/spreadsheets/d/e/2PACX-1vT3pGwZSM-xiNIE79HRbOW_E4ldgeOy9MtWNzzoZB6ma7ksrjRugeM055ME2xKO7xzp84cG7VgOoaEq/pub?gid=0&single=true&output=csv",
   storageKey:     "storium-v1",
   booksPerRow:    10,
-  genres:         ['전체', '모험', '판타지', 'SF', '요리', '인문'],
-  ages:           ['전체', '아동', '청소년', '성인'],
+  genres:         ['전체', '자연/과학', '자기계발', '로맨스/드라마', '동화/우화', '인문/사회', '역사/문화', '모험/판타지', '마음챙김', '종교/철학', '미래기술/AI'],
+  ages:           ['전체', '아동', '초등학생', '청소년', '성인'],
   catColors: {
-    '모험':  '#b45309',
-    '판타지':'#6d28d9',
-    'SF':    '#1d4ed8',
-    '요리':  '#047857',
-    '인문':  '#be123c',
+    '자연/과학':  '#b45309',
+    '자기계발':'#6d28d9',
+    '로맨스/드라마':    '#1d4ed8',
+    '동화/우화':  '#047857',
+    '인문/사회':  '#be123c',
+    '역사/문화':  '#065f46',
+    '모험/판타지':  '#9f1239',
+    '마음챙김':  '#0f766e',
+    '종교/철학':  '#831843',
+    '미래기술/AI':  '#0369a1'
   },
   defaultCatColor: '#374151',
   spinepalette: ['#1e40af','#7c3aed','#b45309','#0f766e','#9f1239','#3d6b40','#92400e','#0369a1','#5b21b6','#065f46','#831843','#7c2d12','#374151','#0c4a6e','#4d7c0f'],
@@ -1022,7 +1027,7 @@ const CONFIG = {
     </div>
   </div>
 
-  <div class="footer">Storium &bull; 이야기 박물관</div>
+  <div class="footer">Storium &bull; 스토리움: 이야기 박물관</div>
 </div>
 
 <!-- Firebase SDK -->
@@ -1850,7 +1855,7 @@ function csvToObjects(text) {
   return rows.slice(1).map(vals => {
     const obj = {};
     headers.forEach((h, i) => { obj[h] = (vals[i] || '').trim(); });
-    if (obj.id) obj.imgLink = `https://raw.githubusercontent.com/swimco911-arch/storium/main/bookcover/story_${obj.id}.png`;
+    if (obj.id) obj.imgLink = `https://raw.githubusercontent.com/swimco911-arch/storium/main/bookcovers/story_${obj.id}.png`;
     return obj;
   }).filter(o => o.id);
 }
