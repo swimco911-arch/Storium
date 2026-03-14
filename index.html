@@ -25,6 +25,7 @@
       --shelf-wood:  #c0a08a;
       --shelf-bg:    #e8d5c4;
       --shelf-plank: #a68b7c;
+      --shelf-plank2: #d4d9de;
       --shelf-border:#b8956e;
       --radius-sm:   8px;
       --radius-md:   14px;
@@ -47,6 +48,7 @@
       --text-3:      #7a6555;
       --shelf-bg:    #1a1006;
       --shelf-plank: #3a2010;
+      --shelf-plank2: #a8998e;
       --shelf-border:#4a2808;
       --accent:      #92400e;
       --accent-2:    #b45309;
@@ -320,9 +322,9 @@
     }
     .faceout-label .section-line { flex: 1; height: 1px; background: var(--border-2); }
     .faceout-plank {
-      height: 1.5rem; background: var(--shelf-plank); border-radius: 2px;
-      margin-top: 0; margin-right: 3rem;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      height: 0.5rem; background: var(--shelf-plank2); border-radius: 0.5px;
+      margin-left: 8rem; margin-right: 8rem; margin-bottom: 1rem;
+      box-shadow: 0 5px 24px rgba(0,0,0,0.35);
       position: relative;
     }
     .faceout-plank::before {
@@ -682,7 +684,7 @@
     .dark .preview-cat { background: #292524; color: #fbbf24; }
 
     .shelf-plank {
-      height: 1.5rem; background: var(--shelf-plank); border-radius: 2px;
+      height: 1.5rem; background: var(--shelf-plank); border-radius: 10px;
       position: relative; box-shadow: 0 8px 24px rgba(0,0,0,0.35);
       margin-right: 3rem; margin-bottom: 1.5rem;
     }
@@ -1110,7 +1112,7 @@
       100% { background-position:  200% center; }
     }
     .new-badge {
-      position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+      position: absolute; top: -25px; left: 50%; transform: translateX(-50%);
       background: linear-gradient(135deg, #b8860b, #ffd700);
       color: #1a0f00; font-size: 8px; font-weight: 900;
       letter-spacing: 0.1em; padding: 1px 5px; border-radius: 3px;
@@ -1684,7 +1686,7 @@ function openAuthModal(mode = 'login') {
           <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
       </button>
-      <h2>${mode === 'login' ? 'Welcome Back' : 'Join Us'}</h2>
+      <h2>${mode === 'login' ? 'Welcome' : 'Join Us'}</h2>
       <p class="auth-subtitle">${mode === 'login' ? '로그인하면 읽음 기록이 저장됩니다.' : '계정을 만들고 독서 여정을 기록하세요.'}</p>
 
       <!-- Google 로그인 -->
@@ -1707,7 +1709,7 @@ function openAuthModal(mode = 'login') {
         <label>Password</label>
         <input type="password" id="auth-password" placeholder="••••••••" autocomplete="current-password" />
       </div>
-      ${mode === 'signup' ? `<p class="pw-hint">비밀번호는 대문자·소문자·숫자·특수문자 포함 6자 이상</p>` : ''}
+      ${mode === 'signup' ? `<p class="pw-hint">* 비밀번호는 대문자·소문자·숫자·특수문자 포함 6자 이상</p>` : ''}
       <div class="auth-error" id="auth-error"></div>
       <button class="auth-submit" id="auth-submit">${mode === 'login' ? '이메일로 로그인' : '이메일로 회원가입'}</button>
 
