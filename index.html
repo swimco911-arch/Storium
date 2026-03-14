@@ -45,9 +45,11 @@
       --text-1:      #fdf6ec;
       --text-2:      #c4a882;
       --text-3:      #7a6555;
-      --shelf-bg:    #1e1208;
-      --shelf-plank: #2e1c0f;
-      --shelf-border:#0d0a08;
+      --shelf-bg:    #1a1006;
+      --shelf-plank: #3a2010;
+      --shelf-border:#4a2808;
+      --accent:      #92400e;
+      --accent-2:    #b45309;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -71,17 +73,20 @@
       to   { opacity: 1; transform: translateY(0); }
     }
     .header-top {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      flex-wrap: wrap; gap: 1.25rem; margin-bottom: 1.75rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1.25rem; margin-bottom: 0.875rem;
+    }
+    .header-second-row {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 0.75rem;
     }
     .brand-tagline {
       font-family: var(--font-display);
       font-size: 13px; font-weight: 400; font-style: italic;
       color: var(--text-2); letter-spacing: 0.01em;
-      margin-top: 0.5rem; margin-bottom: 0.75rem;
-      line-height: 1.6; max-width: 38rem;
+      line-height: 1.6;
+      padding-left: calc(34px + 0.625rem);
     }
-    .brand-tagline::before, .brand-tagline::after { display: none; }
     .brand h1 {
       font-family: var(--font-display);
       font-size: clamp(2rem, 5vw, 3.5rem);
@@ -123,6 +128,7 @@
       display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
       padding: 0.5rem; background: var(--bg-2);
       border: 0.5px solid var(--border); border-radius: var(--radius-md);
+      align-self: flex-end;
     }
     .search-wrap { position: relative; }
     .search-icon {
@@ -149,26 +155,29 @@
     /* FILTER BAR */
     .filter-bar {
       background: var(--surface); border: 0.5px solid var(--border);
-      border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; margin-bottom: 2rem;
-      display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto auto;
-      gap: 0 1.75rem;
+      border-radius: var(--radius-lg); padding: 0.75rem 1.5rem; margin-bottom: 1rem;
+      display: grid; grid-template-columns: 1fr; grid-template-rows: auto auto auto;
+      gap: 0;
       animation: fadeUp 0.5s 0.1s ease both;
     }
-    .filter-group-genre { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; gap: 0.6rem; padding-bottom: 0.625rem; }
-    .filter-secondary-row { grid-column: 1; grid-row: 2; display: flex; gap: 1.75rem; flex-wrap: wrap; padding-bottom: 0.5rem; }
+    .filter-group-genre { grid-column: 1; grid-row: 1; display: flex; flex-direction: row; align-items: flex-start; gap: 0.6rem; padding-bottom: 1rem; }
+    .filter-secondary-row { grid-column: 1; grid-row: 2; display: flex; gap: 2.75rem; flex-wrap: wrap; padding-bottom: 0.25rem; }
     .filter-footer-row { grid-column: 1 / -1; grid-row: 3; }
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    .filter-group { display: flex; flex-direction: column; gap: 0.6rem; }
+    .filter-group { display: flex; flex-direction: row; align-items: center; gap: 0.6rem; }
     .filter-label {
       font-size: 9px; font-weight: 900; text-transform: uppercase;
-      letter-spacing: 0.18em; color: var(--text-3);
+      letter-spacing: 0.15em; white-space: nowrap; flex-shrink: 0;
+      color: var(--accent); background: var(--accent-bg);
+      border: 0.5px solid rgba(217,119,6,0.3);
+      padding: 0.3rem 0.5rem; border-radius: 4px;
     }
     .filter-pills { display: flex; flex-wrap: wrap; gap: 0.375rem; }
     .pill {
-      padding: 0.3rem 0.75rem; border-radius: var(--radius-sm);
+      padding: 0.3rem 0.5rem; border-radius: var(--radius-sm);
       font-size: 12px; font-weight: 700; font-family: var(--font-body);
       border: 0.5px solid transparent; cursor: pointer;
       background: transparent; color: var(--text-2); opacity: 0.55;
@@ -213,33 +222,342 @@
 
     .filter-footer {
       width: 100%; display: flex; align-items: center; justify-content: space-between;
-      padding-top: 0.875rem; border-top: 0.5px solid var(--border); margin-top: 0.25rem;
+      padding-top: 0.5rem; border-top: 0.5px solid var(--border); margin-top: 0.25rem;
     }
     .result-count { font-size: 12px; color: var(--text-3); font-weight: 500; }
     .result-count strong { color: var(--accent); font-weight: 700; }
     .reset-btn {
       font-size: 11px; font-weight: 700; font-family: var(--font-body);
-      color: var(--text-3); background: none; border: none; cursor: pointer;
-      padding: 0.2rem 0.5rem; border-radius: var(--radius-sm);
-      transition: color var(--transition);
+      color: var(--accent); background: var(--accent-bg);
+      border: 1px solid rgba(217,119,6,0.3); cursor: pointer;
+      padding: 0.3rem 0.75rem; border-radius: var(--radius-sm);
+      transition: all var(--transition);
     }
-    .reset-btn:hover { color: var(--danger); }
+    .reset-btn:hover { background: var(--accent); color: white; }
+    .filter-group-reset { display: flex; align-items: flex-end; margin-left: auto; }
+    .sort-footer-group {
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .sort-label-inline {
+      font-size: 11px; font-weight: 700; color: var(--text-3);
+      letter-spacing: 0.05em; white-space: nowrap;
+    }
 
-    /* SHELF */
-    .shelf-box {
+    /* UNIFIED SHELF OUTER */
+    .shelf-box-outer {
       background: var(--shelf-bg);
       border-left: 22px solid var(--shelf-border);
       border-right: 22px solid var(--shelf-border);
-      border-top: none; border-bottom: none;
       border-radius: var(--radius-xl);
-      padding: 2.5rem 2rem;
-      overflow-x: clip;   /* 가로 침범 클립 */
-      overflow-y: visible; /* hover lift는 허용 */
+      overflow-x: clip; overflow-y: visible;
       box-shadow: 0 40px 100px -20px rgba(0,0,0,0.25);
       animation: fadeUp 0.6s 0.2s ease both;
     }
+
+    /* FEATURED BOARD — 태그라인 아래, 필터바 위 */
+    .featured-board {
+      margin-top: 1.5rem;
+      margin-bottom: 1.75rem;
+      background: linear-gradient(160deg, #f5e8cc 0%, #eddbb0 100%);
+      border-radius: var(--radius-lg);
+      border: 1px solid #d4b87a;
+      overflow: hidden;
+    }
+    .dark .featured-board {
+      background: linear-gradient(160deg, #201408 0%, #160e04 100%);
+      border-color: #3a2408;
+    }
+    .featured-board-header {
+      display: flex; align-items: center; gap: 0.875rem;
+      padding: 1rem 1.75rem;
+      cursor: pointer; user-select: none;
+    }
+    .featured-board-header .label-tag {
+      display: inline-block; font-size: 9px; font-weight: 900;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: white; background: var(--accent);
+      padding: 0.18rem 0.55rem; border-radius: 2px; flex-shrink: 0;
+    }
+    .featured-board-header .label-ko {
+      font-family: var(--font-display); font-size: 16px; font-weight: 900;
+      color: var(--text-1); letter-spacing: -0.01em; white-space: nowrap;
+    }
+    .featured-board-header .section-line { flex: 1; height: 1px; background: var(--border-2); }
+    .featured-chevron {
+      color: var(--text-2); flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+    .featured-board.collapsed .featured-chevron { transform: rotate(-90deg); }
+    .featured-board-body {
+      overflow: hidden;
+      max-height: 600px;
+      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), padding 0.4s ease;
+      padding: 0 1.75rem 1.75rem;
+    }
+    .featured-board.collapsed .featured-board-body {
+      max-height: 0;
+      padding-bottom: 0;
+    }
+    .featured-row-inner {
+      position: relative;
+    }
+    /* A안 — 책장 첫 칸 표지 진열 */
+    .faceout-row {
+      padding: 2.5rem 2rem 0;
+    }
+    .faceout-label {
+      display: flex; align-items: center; gap: 1rem;
+      margin-top: -1.75rem; margin-bottom: 0.4rem;
+      position: relative; z-index: 0;
+    }
+    .faceout-label .label-ko {
+      font-family: var(--font-display); font-size: 18px; font-weight: 900;
+      color: var(--text-1); letter-spacing: -0.01em; white-space: nowrap;
+    }
+    .faceout-label .label-en {
+      font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--text-3); white-space: nowrap;
+    }
+    .faceout-label .section-line { flex: 1; height: 1px; background: var(--border-2); }
+    .faceout-plank {
+      height: 1.5rem; background: var(--shelf-plank); border-radius: 2px;
+      margin-top: 0; margin-right: 3rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      position: relative;
+    }
+    .faceout-plank::before {
+      content: ''; position: absolute; top: -6px; left: 0; right: 0;
+      height: 6px; background: rgba(0,0,0,0.45); filter: blur(4px);
+    }
+    .faceout-plank::after {
+      content: ''; position: absolute; top: 5px; left: 0; right: 0;
+      height: 2px; background: rgba(255,255,255,0.08);
+    }
+    .shelf-row-label {
+      padding: 0 0 1.25rem;
+    }
+    .shelf-row-label .label-tag {
+      display: inline-block; font-size: 9px; font-weight: 900;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: white; background: var(--accent);
+      padding: 0.18rem 0.55rem; border-radius: 2px; margin-bottom: 0.45rem;
+    }
+    .shelf-row-label .label-ko {
+      display: block; font-family: var(--font-display); font-size: 22px; font-weight: 900;
+      color: var(--text-1); letter-spacing: -0.01em; line-height: 1.1;
+    }
+    .shelf-row-label .label-sub {
+      display: block; font-size: 11px; color: var(--text-2);
+      margin-top: 0.35rem; letter-spacing: 0.02em;
+    }
+    .shelf-section-label {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 0.75rem 2rem 0.5rem;
+    }
+    .shelf-section-label .section-line {
+      flex: 1; height: 1px; background: var(--border-2);
+    }
+    .shelf-section-label .sort-toggle {
+      display: flex; gap: 2px; padding: 3px;
+      background: var(--bg-2); border: 0.5px solid var(--border); border-radius: var(--radius-sm);
+    }
+    .shelf-section-label .sort-btn {
+      padding: 0.25rem 0.75rem; border-radius: 5px; font-size: 11px; font-weight: 700;
+      font-family: var(--font-body); border: none; cursor: pointer;
+      background: transparent; color: var(--text-2); opacity: 0.6; transition: all var(--transition);
+    }
+    .shelf-section-label .sort-btn.active { background: var(--surface); color: var(--accent); opacity: 1; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .shelf-section-label .sort-btn:hover:not(.active) { opacity: 1; }
+    .shelf-section-label .shuffle-btn {
+      display: flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; border-radius: 6px;
+      border: 0.5px solid var(--border); background: var(--bg-2);
+      color: var(--text-2); cursor: pointer; transition: all var(--transition); padding: 0;
+    }
+    .shelf-section-label .shuffle-btn:hover,
+    .shelf-section-label .shuffle-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+    .shelf-section-label .label-ko {
+      font-family: var(--font-display); font-size: 18px; font-weight: 900;
+      color: var(--text-1); letter-spacing: -0.01em; white-space: nowrap;
+    }
+    .shelf-section-label .label-en {
+      font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--text-3); white-space: nowrap;
+    }
+    .sort-bar {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0 2rem 1.25rem;
+    }
+    .sort-bar .sort-toggle {
+      display: flex; gap: 2px; background: var(--bg-2);
+      border: 1px solid var(--border); border-radius: 8px; padding: 3px;
+    }
+    .sort-bar .sort-btn {
+      padding: 0.3rem 0.85rem; border-radius: 6px; font-size: 11px; font-weight: 600;
+      font-family: var(--font-body); border: none; cursor: pointer;
+      background: transparent; color: var(--text-2); transition: all var(--transition);
+    }
+    .sort-bar .sort-btn.active { background: var(--accent); color: white; }
+    .sort-bar .sort-btn:hover:not(.active) { color: var(--text-1); }
+    .sort-bar .shuffle-btn {
+      display: flex; align-items: center; justify-content: center;
+      width: 30px; height: 30px; border-radius: 7px; border: 1px solid var(--border);
+      background: var(--bg-2); color: var(--text-2); cursor: pointer;
+      transition: all var(--transition); padding: 0;
+    }
+    .sort-bar .shuffle-btn:hover,
+    .sort-bar .shuffle-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+    .featured-grid {
+      display: flex; justify-content: center; gap: 2rem;
+      padding: 0;
+    }
+
+    /* FEATURED PLANK BAR with integrated sort controls */
+    .featured-plank-bar {
+      height: 1.5rem; background: var(--shelf-plank); border-radius: 2px;
+      margin-top: 0.25rem; margin-right: 3rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      position: relative;
+      display: flex; align-items: center;
+    }
+    .featured-plank-bar::before {
+      content: ''; position: absolute; top: -6px; left: 0; right: 0;
+      height: 6px; background: rgba(0,0,0,0.45); filter: blur(4px);
+    }
+    .shelf-sort-controls {
+      position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%);
+      display: flex; align-items: center; gap: 0.3rem;
+    }
+    .shelf-sort-controls .sort-toggle {
+      display: flex; gap: 2px; padding: 2px; background: rgba(0,0,0,0.25); border-radius: 6px;
+    }
+    .shelf-sort-controls .sort-btn {
+      padding: 0.25rem 0.7rem; border-radius: 5px; font-size: 11px; font-weight: 700;
+      font-family: var(--font-body); border: none; cursor: pointer;
+      background: transparent; color: rgba(255,230,180,0.55); transition: all var(--transition);
+    }
+    .shelf-sort-controls .sort-btn.active {
+      background: rgba(255,200,100,0.18); color: #ffd580; box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    .shelf-sort-controls .sort-btn:hover:not(.active) { color: rgba(255,230,180,0.85); }
+    .shelf-sort-controls .shuffle-btn {
+      display: flex; align-items: center; justify-content: center;
+      width: 26px; height: 22px;
+      border-radius: 5px; font-size: 11px; font-weight: 700;
+      font-family: var(--font-body); border: 1px solid rgba(255,200,120,0.2); cursor: pointer;
+      background: rgba(0,0,0,0.2); color: rgba(255,220,160,0.6); transition: all var(--transition);
+      padding: 0;
+    }
+    .shelf-sort-controls .shuffle-btn:hover,
+    .shelf-sort-controls .shuffle-btn.active {
+      background: rgba(255,200,100,0.18); color: #ffd580; border-color: rgba(255,200,100,0.35);
+    }
+
+    /* OLD SORT BAR — keep for styling reference but now hidden (removed from HTML) */
+    /* FEATURED SHELF (legacy classes kept for compatibility) */
+    .featured-section { margin-bottom: 0; }
+    .featured-header {
+      display: flex; align-items: center; gap: 0.625rem;
+      margin-bottom: 0.875rem;
+    }
+    .featured-label {
+      font-family: var(--font-display); font-size: 13px; font-weight: 700;
+      letter-spacing: 0.04em; color: var(--text-2);
+    }
+    .featured-shelf-box {
+      background: var(--shelf-bg);
+      border-left: 22px solid var(--shelf-border);
+      border-right: 22px solid var(--shelf-border);
+      border-radius: var(--radius-xl);
+      padding: 1.75rem 2rem 0;
+      overflow-x: clip; overflow-y: visible;
+    }
+    .featured-book-wrap { position: relative; flex-shrink: 0; transition: transform 0.18s ease; }
+    .featured-new-badge {
+      position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+      background: linear-gradient(105deg, #b8860b 0%, #ffe066 35%, #ffd700 50%, #ffe066 65%, #b8860b 100%);
+      background-size: 200% auto;
+      color: #1a0f00; font-size: 8px; font-weight: 900;
+      letter-spacing: 0.1em; padding: 2px 6px; border-radius: 3px;
+      pointer-events: none; text-transform: uppercase; white-space: nowrap;
+      box-shadow: 0 1px 6px rgba(255,210,0,0.55);
+    }
+    .featured-book {
+      position: relative; cursor: pointer;
+      width: 6.75rem; aspect-ratio: 2/3; border-radius: 4px; overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3), 0 2px 6px rgba(0,0,0,0.2);
+      transition: box-shadow 0.18s ease;
+    }
+    .featured-book::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 7px; z-index: 3;
+      background: linear-gradient(to right, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.1) 70%, transparent 100%);
+      border-radius: 3px 0 0 3px;
+    }
+    .featured-book-wrap:hover { transform: translateY(-6px) rotateY(-3deg); }
+    .featured-book-wrap:hover .featured-book { box-shadow: -4px 2px 0 rgba(0,0,0,0.4), 8px 16px 28px rgba(0,0,0,0.6); }
+    .featured-book img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; z-index: 1; }
+    .featured-book-bg { position: absolute; inset: 0; z-index: 0; }
+    #featured-rsn-tooltip {
+      position: fixed; z-index: 9999; pointer-events: none;
+      background: rgba(245,238,225,0.97); color: #3a2a18;
+      border: 1px solid rgba(180,140,80,0.3);
+      font-size: 11px; font-weight: 500; line-height: 1.55;
+      padding: 0.55rem 0.85rem; border-radius: 7px;
+      max-width: 14rem; text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.55);
+      opacity: 0; transition: opacity 0.18s;
+      white-space: pre-line;
+    }
+    .featured-book-title {
+      position: absolute; inset: 0; display: flex; align-items: flex-end;
+      padding: 0.4rem 0.35rem; z-index: 2;
+      background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 60%);
+      font-size: 8px; font-weight: 700; color: white; line-height: 1.3;
+      word-break: keep-all;
+    }
+    .featured-plank {
+      height: 2.25rem; background: var(--shelf-plank); border-radius: 2px;
+      margin-top: 0.25rem; margin-right: 3rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      position: relative;
+    }
+    .featured-plank::before {
+      content: ''; position: absolute; top: -8px; left: 0; right: 0;
+      height: 8px; background: rgba(0,0,0,0.45); filter: blur(4px);
+    }
+
+    /* SORT BAR (책장 사이 — 나무 선반 스타일) */
+    .sort-bar {
+      display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+      padding: 0.7rem 2rem; margin: 0 0 0;
+      background: var(--shelf-plank);
+      border-left: 22px solid var(--shelf-border);
+      border-right: 22px solid var(--shelf-border);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.07);
+      position: relative;
+    }
+    .sort-bar::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px; background: rgba(255,255,255,0.07);
+    }
+    .sort-bar .sort-toggle { display: flex; gap: 2px; padding: 2px; background: rgba(0,0,0,0.25); border-radius: 6px; }
+    .sort-bar .sort-btn { padding: 0.25rem 0.7rem; border-radius: 5px; font-size: 11px; font-weight: 700; font-family: var(--font-body); border: none; cursor: pointer; background: transparent; color: rgba(255,230,180,0.55); transition: all var(--transition); }
+    .sort-bar .sort-btn.active { background: rgba(255,200,100,0.18); color: #ffd580; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+    .sort-bar .sort-btn:hover:not(.active) { color: rgba(255,230,180,0.85); }
+    .sort-bar .shuffle-btn { display: flex; align-items: center; gap: 0.35rem; padding: 0.25rem 0.6rem; border-radius: 5px; font-size: 11px; font-weight: 700; font-family: var(--font-body); border: 1px solid rgba(255,200,120,0.2); cursor: pointer; background: rgba(0,0,0,0.2); color: rgba(255,220,160,0.6); transition: all var(--transition); }
+    .sort-bar .shuffle-btn:hover, .sort-bar .shuffle-btn.active { background: rgba(255,200,100,0.18); color: #ffd580; border-color: rgba(255,200,100,0.35); }
+    .sort-bar .bookmark-filter-btn { display: flex; align-items: center; gap: 0.35rem; padding: 0.25rem 0.6rem; border-radius: 5px; font-size: 11px; font-weight: 700; font-family: var(--font-body); border: 1px solid rgba(255,200,120,0.2); cursor: pointer; background: rgba(0,0,0,0.2); color: rgba(255,220,160,0.6); transition: all var(--transition); }
+    .sort-bar .bookmark-filter-btn:hover, .sort-bar .bookmark-filter-btn.active { background: rgba(100,160,255,0.18); color: #93c5fd; border-color: rgba(100,160,255,0.35); }
+    .sort-bar-spacer { flex: 1; }
+
+    /* SHELF */
+    .shelf-box {
+      padding: 2.8rem 2rem 2.5rem;
+      overflow-x: clip;   /* 가로 침범 클립 */
+      overflow-y: visible; /* hover lift는 허용 */
+    }
     .shelf-row {
-      margin-bottom: 5rem;
+      margin-bottom: 2.5rem;
       transform: perspective(3000px) rotateY(-8deg);
       transform-origin: left center;
       transform-style: flat;
@@ -251,7 +569,7 @@
     }
     .book-slot { padding: 0 3px; position: relative; }
     /* 빈 슬롯 높이 유지 */
-    .book-spacer { display: block; width: 100%; aspect-ratio: 1 / 4.8; }
+    .book-spacer { display: block; width: 100%; aspect-ratio: 1 / 3.84; }
     .book-3d {
       position: relative;
       transform-style: preserve-3d;
@@ -277,7 +595,7 @@
     }
 
     .book-spine {
-      width: 100%; aspect-ratio: 1 / 4.8; border-radius: 2px 4px 0 0;
+      width: 100%; aspect-ratio: 1 / 3.84; border-radius: 2px 4px 0 0;
       cursor: pointer; position: relative; display: flex; align-items: center;
       justify-content: center; overflow: hidden;
       transition: transform 0.32s cubic-bezier(0.34,1.56,0.64,1), filter 0.2s ease;
@@ -312,7 +630,7 @@
 
     .book-title-text {
       writing-mode: vertical-lr; transform: none;
-      font-size: clamp(11px, 1.5vw, 17px); font-weight: 900;
+      font-size: clamp(11px, 1.5vw, 17px); font-weight: 400;
       color: rgba(255,255,255,0.95); text-transform: uppercase;
       letter-spacing: 0.05em; white-space: nowrap; overflow: hidden;
       text-overflow: ellipsis; max-height: 90%; padding: 4px 3px;
@@ -364,16 +682,16 @@
     .dark .preview-cat { background: #292524; color: #fbbf24; }
 
     .shelf-plank {
-      height: 2.25rem; background: var(--shelf-plank); border-radius: 2px;
+      height: 1.5rem; background: var(--shelf-plank); border-radius: 2px;
       position: relative; box-shadow: 0 8px 24px rgba(0,0,0,0.35);
-      margin-right: 3rem;
+      margin-right: 3rem; margin-bottom: 1.5rem;
     }
     .shelf-plank::before {
-      content: ''; position: absolute; top: -8px; left: 0; right: 0;
-      height: 8px; background: rgba(0,0,0,0.45); filter: blur(4px);
+      content: ''; position: absolute; top: -6px; left: 0; right: 0;
+      height: 6px; background: rgba(0,0,0,0.45); filter: blur(4px);
     }
     .shelf-plank::after {
-      content: ''; position: absolute; top: 7px; left: 0; right: 0;
+      content: ''; position: absolute; top: 5px; left: 0; right: 0;
       height: 2px; background: rgba(255,255,255,0.08);
     }
 
@@ -437,14 +755,23 @@
       background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.15) 55%, transparent 100%);
     }
     .modal-meta {
-      position: absolute; bottom: 0.875rem; left: 0.75rem; right: 0.5rem;
+      position: absolute; top: 0.75rem; left: 0.75rem; right: 0.5rem;
       display: flex; flex-direction: column; gap: 0.375rem; align-items: flex-start;
     }
+    .modal-date-corner {
+      position: absolute; bottom: 0.875rem; right: 0.625rem; z-index: 5;
+    }
     .modal-cat {
-      font-size: 9px; font-weight: 900; color: white; text-transform: uppercase;
+      font-size: 11px; font-weight: 900; color: white; text-transform: uppercase;
       letter-spacing: 0.12em; padding: 0.25rem 0.6rem; border-radius: 6px;
     }
-    .modal-date { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.65); }
+    .modal-date { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.65); }
+    .modal-age-badge {
+      display: inline-block; font-size: 11px; font-weight: 800;
+      color: #1a0f00; letter-spacing: 0.08em;
+      background: rgba(255,255,255,0.75); border: 1px solid rgba(255,255,255,0.9);
+      padding: 0.15rem 0.45rem; border-radius: 4px;
+    }
     .modal-title {
       font-family: var(--font-display); font-size: 1.5rem; font-weight: 700;
       letter-spacing: -0.02em; line-height: 1.2;
@@ -688,19 +1015,29 @@
 
     @media (max-width: 900px) {
       .container, .shelf-container { padding-left: 1rem; padding-right: 1rem; }
-      .shelf-box { padding: 1.25rem 0.75rem; border-left-width: 12px; border-right-width: 12px; border-radius: 1.5rem; }
+      .shelf-box-outer { border-left-width: 12px; border-right-width: 12px; border-radius: 1.5rem; }
+      .shelf-box { padding: 1.25rem 0.75rem; }
       .filter-bar { grid-template-columns: 1fr; }
-      .sort-group { grid-column: 1; grid-row: auto; border-left: none; padding-left: 0; }
       .controls { width: 100%; }
       .search-input { width: 140px; }
       .book-preview { display: none; }
       .book-title-text { font-size: clamp(9px, 3vw, 14px); }
+      .featured-grid { grid-template-columns: repeat(5, 1fr) !important; }
+      .sort-bar { display: none; }
     }
     @media (max-width: 480px) {
       .container, .shelf-container { padding-left: 0.75rem; padding-right: 0.75rem; }
       .book-title-text { font-size: clamp(7px, 2.5vw, 11px); }
       .shelf-row { margin-bottom: 3.5rem; }
+      .modal { max-width: calc(100vw - 1.5rem); }
+      .modal-layout { flex-direction: column; }
+      .modal-left { width: 100%; height: 11rem; min-height: unset; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+      .featured-grid { grid-template-columns: repeat(4, 1fr) !important; }
     }
+    /* 다크모드 책 색상 강화 */
+    .dark .book-spine { filter: brightness(1.15) saturate(1.3) hue-rotate(15deg); }
+    .dark .book-3d { filter: drop-shadow(0 4px 10px rgba(0,0,0,0.7)); }
+    .dark .book-title-text { color: rgba(10,5,0,0.9) !important; text-shadow: 0 0 5px rgba(255,255,255,0.55), 0 1px 2px rgba(255,255,255,0.35); }
 
     /* 통계 패널 */
     .stats-overlay {
@@ -768,14 +1105,57 @@
     .rank-empty { font-size: 13px; color: var(--text-3); text-align: center; padding: 1rem 0; }
 
     /* 새책 배지 */
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position:  200% center; }
+    }
     .new-badge {
-      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
-      background: #6366f1; color: white; font-size: 8px; font-weight: 900;
-      letter-spacing: 0.08em; padding: 1px 5px; border-radius: 3px;
+      position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, #b8860b, #ffd700);
+      color: #1a0f00; font-size: 8px; font-weight: 900;
+      letter-spacing: 0.1em; padding: 1px 5px; border-radius: 3px;
       z-index: 30; pointer-events: none; text-transform: uppercase;
+      box-shadow: 0 1px 6px rgba(255,210,0,0.55);
+    }
+    .preview-new-badge {
+      position: absolute; top: 0.9rem; left: 0.9rem;
+      background: linear-gradient(105deg, #b8860b 0%, #ffe066 35%, #ffd700 50%, #ffe066 65%, #b8860b 100%);
+      background-size: 200% auto;
+      color: #1a0f00; font-size: 9px; font-weight: 900;
+      letter-spacing: 0.1em; padding: 2px 6px; border-radius: 3px;
+      z-index: 30; pointer-events: none; text-transform: uppercase;
+      animation: shimmer 2.2s linear infinite;
+      box-shadow: 0 1px 6px rgba(255,210,0,0.55);
+    }
+    .modal-new-badge {
+      display: inline-block; align-self: flex-start;
+      background: linear-gradient(105deg, #b8860b 0%, #ffe066 35%, #ffd700 50%, #ffe066 65%, #b8860b 100%);
+      background-size: 200% auto;
+      color: #1a0f00; font-size: 10px; font-weight: 900;
+      letter-spacing: 0.1em; padding: 3px 8px; border-radius: 4px;
+      pointer-events: none; text-transform: uppercase;
+      animation: shimmer 2.2s linear infinite;
+      box-shadow: 0 2px 8px rgba(255,210,0,0.55);
     }
 
     /* 찜 — 우상단 클립 */
+    /* 추천도서 NEW - 반짝임 없음 */
+    .featured-book .preview-new-badge { animation: none; }
+    /* 추천도서 읽음 — 세로 빨간 책갈피 (찜 왼쪽) */
+    .read-clip {
+      position: absolute; top: 0; right: 22px;
+      width: 13px; height: 22px;
+      background: linear-gradient(to bottom, #f87171, #ef4444);
+      border-radius: 0 0 4px 4px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.25);
+      z-index: 20;
+    }
+    .read-clip::before {
+      content: '';
+      position: absolute; top: 5px; left: 50%; transform: translateX(-50%);
+      width: 6px; height: 8px;
+      border: 2px solid rgba(0,0,0,0.18); border-radius: 1px;
+    }
     .bookmark-ribbon {
       position: absolute; top: 0; right: 6px;
       width: 13px; height: 22px;
@@ -817,9 +1197,9 @@
     .memo-saved { font-size: 11px; color: #10b981; font-weight: 700; margin-left: 0.5rem; opacity: 0; transition: opacity 0.3s; }
     .memo-saved.show { opacity: 1; }
 
-    /* 찜 아이콘 버튼 (왼쪽 패널 우하단) */
+    /* 찜 아이콘 버튼 (왼쪽 패널 우상단) */
     .btn-bookmark-icon {
-      position: absolute; bottom: 0.875rem; right: 0.625rem; z-index: 6;
+      position: absolute; top: 0.625rem; right: 0.625rem; z-index: 6;
       width: 30px; height: 30px; border-radius: 50%;
       border: 0.5px solid rgba(255,255,255,0.35);
       cursor: pointer; background: rgba(0,0,0,0.32); color: white;
@@ -829,9 +1209,9 @@
     .btn-bookmark-icon:hover { background: rgba(0,0,0,0.55); transform: scale(1.08); }
     .btn-bookmark-icon.active { background: #1d4ed8; border-color: #93c5fd; color: white; }
 
-    /* 반응 카운트: 표지 상단 오버레이 */
+    /* 반응 카운트: 표지 좌하단 오버레이 */
     .modal-stats-top {
-      position: absolute; top: 0.625rem; right: 0.5rem; left: auto;
+      position: absolute; bottom: 0.875rem; left: 0.75rem; right: auto;
       display: flex; flex-direction: row; gap: 0.25rem; z-index: 5;
     }
     .modal-stat {
@@ -861,7 +1241,7 @@
       padding: 0.35rem 0.75rem; border-radius: 99px;
       font-size: 11px; font-weight: 700; font-family: var(--font-body);
       border: 0.5px solid var(--border); cursor: pointer;
-      background: var(--bg-2); color: var(--text-2);
+      background: transparent; color: var(--text-2);
       transition: all var(--transition);
       display: flex; align-items: center; gap: 0.3rem;
     }
@@ -878,6 +1258,19 @@
       transition: all var(--transition);
     }
     .nav-btn:hover { background: var(--accent-bg); color: var(--accent); border-color: var(--accent); }
+
+    /* TOOLTIPS */
+    [data-tooltip] { position: relative; }
+    [data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+      background: rgba(20,15,10,0.92); color: #fdf6ec;
+      font-size: 10px; font-weight: 600; font-family: var(--font-body);
+      padding: 0.25rem 0.5rem; border-radius: 5px; white-space: nowrap;
+      opacity: 0; pointer-events: none; transition: opacity 0.15s;
+      z-index: 9999;
+    }
+    [data-tooltip]:hover::after { opacity: 1; }
   </style>
 </head>
 <body>
@@ -890,7 +1283,7 @@ const CONFIG = {
   sheetUrl:       "https://docs.google.com/spreadsheets/d/e/2PACX-1vT3pGwZSM-xiNIE79HRbOW_E4ldgeOy9MtWNzzoZB6ma7ksrjRugeM055ME2xKO7xzp84cG7VgOoaEq/pub?gid=0&single=true&output=csv",
   storageKey:     "storium-v1",
   booksPerRow:    10,
-  genres:         ['전체', '자연/과학', '자기계발', '로맨스/드라마', '동화/우화', '인문/사회', '역사/문화', '모험/판타지', '마음챙김', '종교/철학', '미래기술/AI'],
+  genres:         ['전체', '자연/과학', '자기계발', '로맨스/드라마', '동화/우화', '인문/사회', '역사/문화', '모험/판타지', '마음챙김', '종교/철학', '미래기술/AI', '고사성어/속담', '우리말/한자'],
   ages:           ['전체', '아동', '초등학생', '청소년', '성인'],
   catColors: {
     '자연/과학':   '#1a8c4e',
@@ -902,7 +1295,9 @@ const CONFIG = {
     '모험/판타지': '#0a8a9e',
     '마음챙김':   '#1a8c7a',
     '종교/철학':  '#8a4070',
-    '미래기술/AI': '#2850b0'
+    '미래기술/AI': '#2850b0',
+    '고사성어/속담': '#7a4010',
+    '우리말/한자': '#1a5c3a'
   },
   defaultCatColor: '#5a6880',
   spinepalette: ['#b83030','#c87010','#a8920a','#1a8c4e','#0a8a9e','#1a6fb5','#5040a8','#9a2070','#c0254a','#b06020','#0a8080','#2050a0','#8a3030','#7040a0','#1a7050'],
@@ -925,37 +1320,33 @@ const CONFIG = {
             </svg>
             Storium
           </h1>
-          <div class="brand-tagline">Story + -ium — 이야기들이 머무는 공간에 오신 것을 환영합니다</div>
-          <div class="brand-meta">
-            <span class="user-chip" id="user-chip">
-              <span class="chip-icon">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              </span>
-              <span class="chip-label">게스트</span>
-            </span>
-            <span class="chip-sep"></span>
-            <span class="stat-chip" id="stat-chip">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-              </svg>
-              0권 읽음
-            </span>
-          </div>
         </div>
-
         <div class="controls">
           <div class="search-wrap">
             <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input class="search-input" type="text" id="search-input" placeholder="제목 검색..." autocomplete="off" />
+            <input class="search-input" type="text" id="search-input" placeholder="이야기 제목 검색..." autocomplete="off" />
           </div>
-          <button class="nav-btn" id="ranking-btn" title="독서 랭킹">🏆</button>
-          <button class="auth-btn signin" id="auth-btn">Sign In</button>
-          <button class="icon-btn" id="dark-btn" title="다크모드 전환">
+          <button class="icon-btn" id="dark-btn" data-tooltip="다크 / 라이트 모드">
             <svg id="dark-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
             </svg>
           </button>
+          <button class="nav-btn" id="ranking-btn" data-tooltip="독서 랭킹">🏆</button>
+          <span class="user-chip" id="user-chip">
+            <span class="chip-icon">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </span>
+            <span class="chip-label">게스트</span>
+          </span>
+          <span class="chip-sep"></span>
+          <span class="stat-chip" id="stat-chip">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
+            0권 읽음
+          </span>
+          <button class="auth-btn signin" id="auth-btn">Sign In</button>
         </div>
       </div>
 
@@ -977,57 +1368,68 @@ const CONFIG = {
               <button class="pill" data-type="readStatus" data-val="미읽음">미읽음</button>
             </div>
           </div>
-        </div>
-        <div class="sort-group">
-          <div class="filter-label">Sort</div>
-          <div class="sort-row">
-            <div class="sort-toggle">
-              <button class="sort-btn active" data-sort="최신순">최신순</button>
-              <button class="sort-btn" data-sort="오래된순">오래된순</button>
-              <button class="sort-btn" data-sort="조회순">조회순</button>
-              <button class="sort-btn" data-sort="좋아요순">좋아요순</button>
+          <div class="filter-group">
+            <div class="filter-label">Bookmarks</div>
+            <div class="filter-pills">
+              <button class="bookmark-filter-btn" id="bookmark-filter-btn" data-tooltip="찜한 책만 보기" title="찜한 책 보기">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                나의 찜
+              </button>
             </div>
-          </div>
-          <div class="sort-row">
-            <button class="shuffle-btn" id="shuffle-btn" title="랜덤 셔플">
-              <svg id="shuffle-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="16 3 21 3 21 8"/>
-                <line x1="4" y1="20" x2="21" y2="3"/>
-                <polyline points="21 16 21 21 16 21"/>
-                <line x1="15" y1="15" x2="21" y2="21"/>
-                <line x1="4" y1="4" x2="9" y2="9"/>
-              </svg>
-              Shuffle
-            </button>
-            <button class="bookmark-filter-btn" id="bookmark-filter-btn" title="찜한 책 보기">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-              찜
-            </button>
           </div>
         </div>
         <div class="filter-footer filter-footer-row">
-          <span class="result-count" id="result-count">전체 <strong>0</strong>권</span>
-          <button class="reset-btn" id="reset-btn">필터 초기화</button>
+          <div style="display:flex;align-items:center;gap:0.6rem;">
+            <span class="result-count" id="result-count">전체 <strong>0</strong>권</span>
+            <button class="reset-btn" id="reset-btn">필터 초기화</button>
+          </div>
+          <div class="sort-footer-group">
+            <span class="sort-label-inline">SORT</span>
+            <div class="sort-toggle">
+              <button class="sort-btn active" data-sort="최신순">최신순</button>
+              <button class="sort-btn" data-sort="오래된순">오래된순</button>
+              <button class="sort-btn" data-sort="가나다순">가나다순</button>
+              <button class="sort-btn" data-sort="조회순">조회순</button>
+              <button class="sort-btn" data-sort="좋아요순">좋아요순</button>
+            </div>
+            <button class="shuffle-btn" id="shuffle-btn" data-tooltip="랜덤 셔플">
+              <svg id="shuffle-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/>
+                <polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/>
+                <line x1="4" y1="4" x2="9" y2="9"/>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <div class="shelf-container">
-    <div class="shelf-box" id="shelf-box">
-      <div class="loader">
-        <svg class="spin" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
-          <line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/>
-          <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/>
-          <line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/>
-          <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/>
-        </svg>
-        <p>책장 불러오는 중…</p>
+    <div class="shelf-box-outer">
+
+      <!-- A안: 책장 첫 칸 — 표지 진열 -->
+      <div class="faceout-row" id="faceout-row">
+        <div class="featured-grid" id="featured-grid"></div>
+        <div class="faceout-plank"></div>
+      </div>
+
+      <!-- 일반 책장 -->
+      <div class="shelf-box" id="shelf-box">
+        <div class="loader">
+          <svg class="spin" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
+            <line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/>
+            <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/>
+            <line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/>
+            <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/>
+          </svg>
+          <p>책장 불러오는 중…</p>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="footer">Storium &bull; 스토리움: 이야기 박물관</div>
+  <div class="footer">Storium &bull; [Story + -ium] — 스토리움: 이야기 박물관</div>
 </div>
 
 <!-- Firebase SDK -->
@@ -1253,7 +1655,7 @@ async function updateAuthUI() {
     nickname = nickname || currentUser.email?.split('@')[0] || '로그인됨';
     chip.innerHTML = `${iconSVG}<span class="chip-label"><em>${nickname}</em>의 책장</span>`;
     const iconBtn = document.getElementById('chip-icon-btn');
-    if (iconBtn) { iconBtn.style.cursor = 'pointer'; iconBtn.title = '독서 통계'; iconBtn.addEventListener('click', openStatsPanel); }
+    if (iconBtn) { iconBtn.style.cursor = 'pointer'; iconBtn.setAttribute('data-tooltip', '나의 독서 통계'); iconBtn.addEventListener('click', openStatsPanel); }
     btn.textContent = 'Sign Out';
     btn.className   = 'auth-btn signout';
     btn.onclick     = doSignOut;
@@ -1392,6 +1794,8 @@ function getFilteredBooks() {
     result.sort((a, b) => new Date(b.date) - new Date(a.date));
   } else if (filter.sortBy === '오래된순') {
     result.sort((a, b) => new Date(a.date) - new Date(b.date));
+  } else if (filter.sortBy === '가나다순') {
+    result.sort((a, b) => (a.title || '').localeCompare(b.title || '', 'ko'));
   } else if (filter.sortBy === '조회순') {
     result.sort((a, b) => ((allStats?.[b.id]?.readers||0) - (allStats?.[a.id]?.readers||0)));
   } else if (filter.sortBy === '좋아요순') {
@@ -1423,6 +1827,8 @@ function renderShelf() {
 
   if (!books.length) {
     box.innerHTML = `<div class="empty-state"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><p>${showBookmarksOnly ? '찜한 책이 없어요 🔖' : 'No books found'}</p></div>`;
+    renderFeatured();
+    updateResetBtn();
     return;
   }
 
@@ -1471,7 +1877,7 @@ function renderShelf() {
       const hasImg = book.imgLink?.startsWith('http');
       const bcolor = getCatColor(book.category, book.id);
       _gPreview.innerHTML = `
-        ${hasImg ? `<div class="preview-img-wrap"><img class="preview-img" src="${book.imgLink}" alt="" loading="lazy"/></div>` : ''}
+        ${hasImg ? `<div class="preview-img-wrap" style="position:relative"><img class="preview-img" src="${book.imgLink}" alt="" loading="lazy"/>${isNewBook(book) ? '<div class="preview-new-badge">NEW</div>' : ''}</div>` : ''}
         <div class="preview-info">
           <div class="preview-title">${book.title || ''}</div>
           ${book.category ? `<div class="preview-cat" style="background:${bcolor}">${book.category}</div>` : ''}
@@ -1486,6 +1892,8 @@ function renderShelf() {
       _gPreview.classList.remove('visible');
     });
   });
+  renderFeatured();
+  updateResetBtn();
 }
 
 // 글로벌 프리뷰 요소 (position:fixed → 3D 컨텍스트 밖)
@@ -1511,6 +1919,7 @@ window.addEventListener('resize', () => {
   _resizeTimer = setTimeout(() => {
     const n = getBooksPerRow();
     if (n !== _lastCols) { _lastCols = n; renderShelf(); }
+    else renderFeatured();
   }, 80);
 });
 
@@ -1572,8 +1981,10 @@ async function openModal(book) {
           </div>
           <div class="modal-meta">
             <span class="modal-cat" style="background:${color}">${book.category || ''}</span>
-            <span class="modal-date">${book.date || ''}</span>
+            ${book.age ? `<span class="modal-age-badge">${book.age}</span>` : ''}
+            ${isNewBook(book) ? '<div class="modal-new-badge">NEW</div>' : ''}
           </div>
+          <span class="modal-date modal-date-corner">${book.date || ''}</span>
           ${currentUser && !currentUser.isAnonymous ? `
           <button class="btn-bookmark-icon ${isBookmarked ? 'active' : ''}" id="btn-bookmark" title="${isBookmarked ? '찜 취소' : '찜하기'}">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="${isBookmarked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.5">
@@ -1821,6 +2232,18 @@ function buildFilterPills() {
   });
 }
 
+function isFilterActive() {
+  const s = document.getElementById('search-input')?.value.trim();
+  return filter.genre !== '전체' || filter.age !== '전체' || filter.readStatus !== '전체'
+    || filter.sortBy !== '최신순' || showBookmarksOnly || !!s;
+}
+function updateResetBtn() {
+  const btn = document.getElementById('reset-btn');
+  if (!btn) return;
+  btn.disabled = !isFilterActive();
+  btn.style.opacity = isFilterActive() ? '1' : '0.35';
+  btn.style.pointerEvents = isFilterActive() ? '' : 'none';
+}
 function resetFilters() {
   filter = { genre: '전체', age: '전체', readStatus: '전체', sortBy: '최신순' };
   randomOrder = [];
@@ -1918,6 +2341,29 @@ document.getElementById('dark-btn').addEventListener('click', () => {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeModal(); closeAuthModal(); }
 });
+
+/* 🥚 이스터에그 — 코나미 코드 ↑↑↓↓←→←→BA */
+{ const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  let ki = 0;
+  document.addEventListener('keydown', e => {
+    if (e.key === KONAMI[ki]) { ki++;
+      if (ki === KONAMI.length) { ki = 0; triggerEasterEgg(); }
+    } else { ki = e.key === KONAMI[0] ? 1 : 0; }
+  });
+}
+function triggerEasterEgg() {
+  const msg = document.createElement('div');
+  msg.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);z-index:99999;background:#1a0f00;color:#ffd700;font-family:var(--font-display);font-size:clamp(1.2rem,4vw,2.2rem);font-weight:900;padding:2rem 3rem;border-radius:1rem;border:2px solid #ffd700;text-align:center;box-shadow:0 0 60px rgba(255,210,0,0.4);transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1)';
+  msg.innerHTML = '📚 비밀의 서재 🔮<br><span style="font-size:0.55em;font-weight:400;color:#c4a460;display:block;margin-top:0.5rem">책을 사랑하는 당신을 위한 비밀 공간</span>';
+  document.body.appendChild(msg);
+  requestAnimationFrame(() => { msg.style.transform = 'translate(-50%,-50%) scale(1)'; });
+  // 플랭크 글로우 효과
+  document.querySelectorAll('.shelf-plank, .faceout-plank').forEach(p => {
+    p.style.transition = 'box-shadow 0.5s'; p.style.boxShadow = '0 0 20px rgba(255,210,0,0.5), 0 8px 24px rgba(0,0,0,0.35)';
+    setTimeout(() => { p.style.boxShadow = ''; }, 3000);
+  });
+  setTimeout(() => { msg.style.transform = 'translate(-50%,-50%) scale(0)'; setTimeout(() => msg.remove(), 400); }, 3500);
+}
 
 /* ============================================================
    STATS PANEL
@@ -2064,6 +2510,67 @@ async function openRankingPanel() {
     </div>
   `;
   document.getElementById('ranking-close').addEventListener('click', () => overlay.remove());
+  const escRanking = e => { if (e.key === 'Escape') { overlay.remove(); document.removeEventListener('keydown', escRanking); } };
+  document.addEventListener('keydown', escRanking);
+}
+
+/* ============================================================
+   FEATURED SHELF
+   ============================================================ */
+function renderFeatured() {
+  const grid = document.getElementById('featured-grid');
+  const row  = document.getElementById('faceout-row');
+  if (!grid || !allBooks.length) return;
+
+  // 현재 필터 조건에 맞는 책 중 recommend=1 인 것만
+  const filtered = getFilteredBooks();
+  let pool = filtered.filter(b => String(b.recommend).trim() === '1');
+
+  // 컨테이너 너비 기반 최대 표시 개수 계산 (책 너비 108px + gap 32px, 최대 5개)
+  const bookW = 108, gapW = 32;
+  const maxBooks = Math.max(1, Math.floor((grid.offsetWidth + gapW) / (bookW + gapW)));
+  const limit = Math.min(maxBooks, 5);
+
+  if (pool.length > limit) {
+    if (filter.sortBy === '랜덤') {
+      for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+    }
+    pool = pool.slice(0, limit);
+  }
+
+  // 추천 없으면 faceout-row 숨김
+  if (row) row.style.display = pool.length ? '' : 'none';
+  if (!pool.length) return;
+
+  grid.style.justifyContent = 'center';
+
+  grid.innerHTML = pool.map(book => {
+    const color = getCatColor(book.category, book.id);
+    const hasImg = book.imgLink?.startsWith('http');
+    const isBookmarked = interactions[book.id]?.bookmarked;
+    const isRead = interactions[book.id]?.isRead;
+    const isNew = isNewBook(book);
+    return `
+      <div class="featured-book-wrap">
+        ${isNew ? '<div class="featured-new-badge">NEW</div>' : ''}
+        <div class="featured-book" data-id="${book.id}">
+          ${hasImg ? `<img src="${book.imgLink}" alt="" loading="lazy" />` : ''}
+          <div class="featured-book-bg" style="background:${color}"></div>
+          ${isRead ? '<div class="read-ribbon"></div>' : ''}
+          ${isBookmarked ? '<div class="bookmark-ribbon"></div>' : ''}
+        </div>
+      </div>`;
+  }).join('');
+
+  grid.querySelectorAll('.featured-book').forEach(el => {
+    el.addEventListener('click', () => {
+      const book = allBooks.find(b => b.id === el.dataset.id);
+      if (book) openModal(book);
+    });
+  });
 }
 
 /* ============================================================
@@ -2081,6 +2588,7 @@ async function loadData() {
     allBooks = [];
   }
   buildFilterPills();
+  renderFeatured();
   updateStats();
   renderShelf();
   // URL hash로 공유된 책 자동 오픈
@@ -2090,5 +2598,11 @@ async function loadData() {
 
 loadData();
 </script>
+
+<script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
+
