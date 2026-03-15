@@ -71,24 +71,63 @@
     /* 별 깜빡임 애니메이션 */
     @keyframes star-twinkle {
       0%, 100% { opacity: 1; }
-      50%       { opacity: 0.55; }
+      50%       { opacity: 0.45; }
     }
-    #star-field { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    @keyframes shoot {
+      0%   { transform: translateX(0) translateY(0); opacity: 0; width: 0px; }
+      5%   { opacity: 1; }
+      60%  { width: 140px; opacity: 0.7; }
+      100% { transform: translateX(380px) translateY(220px); opacity: 0; width: 0px; }
+    }
+    /* 우주 팽창 드리프트 */
+    @keyframes starDrift1 { 0%{transform:translate(0,0)} 100%{transform:translate(18px,11px)} }
+    @keyframes starDrift2 { 0%{transform:translate(0,0)} 100%{transform:translate(-14px,16px)} }
+    @keyframes starDrift3 { 0%{transform:translate(0,0)} 100%{transform:translate(11px,-15px)} }
+    @keyframes cosmicFloat1 { 0%{translate:0 0} 100%{translate:13px 9px} }
+    @keyframes cosmicFloat2 { 0%{translate:0 0} 100%{translate:-11px 15px} }
+    @keyframes cosmicFloat3 { 0%{translate:0 0} 100%{translate:9px -12px} }
+    @keyframes cosmicFloat4 { 0%{translate:0 0} 100%{translate:-14px -8px} }
+    #star-field { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
     #star-field .star-layer {
-      position: absolute; top: 0; left: 0; width: 1px; height: 1px;
-      border-radius: 50%;
+      position: absolute; top: 0; left: 0; width: 1px; height: 1px; border-radius: 50%;
     }
     #star-field .star-layer.twinkle {
       animation: star-twinkle var(--dur, 3s) ease-in-out infinite;
       animation-delay: var(--delay, 0s);
     }
+    #star-field .nebula {
+      position: absolute; border-radius: 50%; pointer-events: none;
+    }
+    #star-field .shooting-star {
+      position: absolute; height: 1.5px; width: 0;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.85), transparent);
+      border-radius: 99px;
+      animation: shoot var(--dur, 2s) ease-out var(--delay, 5s) infinite;
+      transform-origin: left center;
+      transform: rotate(-32deg);
+    }
+    #star-field .asteroid {
+      position: absolute; pointer-events: none;
+      background: radial-gradient(ellipse at 35% 30%, var(--col-hi, #b0a898) 0%, var(--col-mid, #7a7068) 45%, var(--col-dark, #3a3028) 100%);
+      border-radius: var(--br, 40% 60% 55% 45% / 50% 45% 55% 50%);
+      opacity: var(--op, 0.55);
+      box-shadow: inset -1px -1px 2px rgba(0,0,0,0.5), inset 1px 1px 1px rgba(255,255,255,0.08);
+    }
+    #star-field .planet {
+      position: absolute; border-radius: 50%; pointer-events: none;
+    }
+    #star-field .planet-ring {
+      position: absolute; border-radius: 50%; pointer-events: none;
+    }
+    .shuffle-btn:hover #random-icon { animation: iconSpin 0.4s ease-out 1; }
+    @keyframes iconSpin { to { transform: rotate(360deg); } }
 
     .page { min-height: 100vh; }
     .container { max-width: 1400px; margin: 0 auto; padding: 0 clamp(1rem, 8vw, 120px); }
     .shelf-container { max-width: 1400px; margin: 0 auto; padding: 0 clamp(1rem, 8vw, 120px) 2rem; }
 
     /* HEADER */
-    .header { padding: 0.5rem 0 0; animation: fadeDown 0.6s ease both; }
+    .header { padding: 1.2rem 0 0; animation: fadeDown 0.6s ease both; }
     @keyframes fadeDown {
       from { opacity: 0; transform: translateY(-16px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -125,9 +164,9 @@
       font-size: clamp(2rem, 5vw, 3.5rem);
       font-weight: 900; letter-spacing: 0.04em; line-height: 1;
       text-transform: uppercase;
-      background: linear-gradient(160deg, #c46010 0%, #a04808 50%, #7a3205 100%);
+      background: linear-gradient(155deg, #e07828 0%, #c85c1e 35%, #8e3c12 65%, #4a1e06 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      filter: drop-shadow(0 2px 10px rgba(180,80,10,0.18));
+      filter: drop-shadow(0 2px 10px rgba(160,60,10,0.18));
     }
     .brand-meta {
       display: flex; align-items: center; flex-wrap: wrap;
@@ -224,7 +263,8 @@
     .dark .pill { color: #7a8c98; opacity: 0.9; }
     .dark .pill:hover { background: rgba(55,65,75,0.45); color: #9aabb6; opacity: 1; }
     .dark .pill.active { background: rgba(65,80,95,0.35); color: #b8cad4; border-color: rgba(90,108,124,0.50); opacity: 1; }
-    .pill:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
+    .pill:disabled { opacity: 0.28; cursor: not-allowed; pointer-events: none; filter: grayscale(0.5); }
+    .dark .pill:disabled { color: rgba(0,0,0,0.22); opacity: 1; cursor: not-allowed; pointer-events: none; }
 
 .sort-row { display: flex; align-items: center; gap: 0.75rem; }
     .sort-toggle {
@@ -244,33 +284,28 @@
       display: flex; align-items: center; gap: 0.375rem;
       padding: 0.4rem 0.875rem; border-radius: var(--radius-sm);
       font-size: 11px; font-weight: 900; font-family: var(--font-body);
-      border: 0.5px solid rgba(100,150,255,0.25); cursor: pointer;
+      border: 0.5px solid rgba(160,185,210,0.40); cursor: pointer;
+      background: #f0f2f4;
+      color: rgba(55,80,105,0.72);
+      opacity: 0.90;
+      transition: all var(--transition);
+      position: relative; overflow: visible;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.9);
+    }
+    .shuffle-btn:hover { opacity: 1; border-color: rgba(120,160,200,0.55); box-shadow: 0 2px 8px rgba(0,0,0,0.10); color: rgba(55,80,105,0.90); }
+    .shuffle-btn.active { background: var(--accent-2); color: white; border-color: var(--accent); opacity: 1; }
+    .shuffle-btn.rolling { opacity: 1; pointer-events: none; }
+    /* 다크모드: 우주 야경 유지 */
+    .dark .shuffle-btn {
+      border-color: rgba(100,150,255,0.25);
       background:
         radial-gradient(ellipse at 30% 40%, rgba(80,60,140,0.35) 0%, transparent 60%),
         radial-gradient(ellipse at 75% 70%, rgba(30,60,120,0.3) 0%, transparent 55%),
         linear-gradient(135deg, #0a0818 0%, #0d1030 50%, #08101e 100%);
       color: rgba(180,210,255,0.75);
-      opacity: 0.72;
-      transition: all var(--transition);
-      position: relative; overflow: visible;
+      opacity: 0.72; box-shadow: none;
     }
-    .shuffle-btn::before {
-      content: '';
-      position: absolute; inset: 0;
-      background-image:
-        radial-gradient(1px 1px at 15% 25%, rgba(255,255,255,0.7) 0%, transparent 100%),
-        radial-gradient(1px 1px at 55% 15%, rgba(255,255,255,0.5) 0%, transparent 100%),
-        radial-gradient(1.5px 1.5px at 80% 55%, rgba(255,255,255,0.6) 0%, transparent 100%),
-        radial-gradient(1px 1px at 35% 75%, rgba(255,255,255,0.4) 0%, transparent 100%),
-        radial-gradient(1px 1px at 90% 30%, rgba(255,255,255,0.5) 0%, transparent 100%),
-        radial-gradient(1px 1px at 65% 85%, rgba(255,255,255,0.4) 0%, transparent 100%),
-        radial-gradient(1px 1px at 10% 60%, rgba(200,220,255,0.5) 0%, transparent 100%),
-        radial-gradient(1.5px 1.5px at 45% 45%, rgba(255,255,255,0.3) 0%, transparent 100%);
-      pointer-events: none;
-    }
-    .shuffle-btn:hover { opacity: 1; border-color: rgba(120,180,255,0.45); color: rgba(200,230,255,0.95); }
-    .shuffle-btn.active { background: var(--accent-2); color: white; border-color: var(--accent); opacity: 1; }
-    .shuffle-btn.rolling { opacity: 1; pointer-events: none; }
+    .dark .shuffle-btn:hover { opacity: 1; border-color: rgba(120,180,255,0.45); color: rgba(200,230,255,0.95); box-shadow: 0 4px 16px rgba(60,100,200,0.25); }
     @keyframes dice-shake {
       0%   { transform: rotate(0deg) scale(1); }
       10%  { transform: rotate(-18deg) scale(1.15); }
@@ -490,7 +525,7 @@
       display: flex; justify-content: flex-start;
     }
     .shelf-eyebrow {
-      position: static; transform: none;
+      position: relative; transform: none;
       z-index: 10; white-space: nowrap; margin: 0;
       font-size: 10px; padding: 0.28rem 1.2rem;
     }
@@ -528,22 +563,28 @@
     .shelf-eyebrow::after  { right: 8px; }
 
     .dark .featured-eyebrow {
-      color: rgba(160,180,210,0.8);
-      text-shadow: 0 1px 0 rgba(0,0,0,0.6);
-      background: linear-gradient(170deg, #222a38 0%, #161e2a 35%, #1c2432 55%, #101820 100%);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.6), inset 0 1px 0 rgba(160,180,220,0.06), inset 0 -1px 0 rgba(0,0,0,0.4);
+      color: rgba(20,30,40,0.88);
+      text-shadow: 0 1px 1px rgba(150,185,215,0.20);
+      background: linear-gradient(170deg, #3e4c58 0%, #566472 35%, #647482 55%, #4a5a68 100%);
+      box-shadow:
+        inset 0 2px 5px rgba(0,0,0,0.60),
+        inset 0 1px 2px rgba(0,0,0,0.45),
+        inset 0 -1px 0 rgba(160,190,215,0.10),
+        0 1px 0 rgba(155,185,210,0.14);
     }
     .dark .featured-eyebrow::before, .dark .featured-eyebrow::after {
-      background: radial-gradient(circle at 38% 35%, #2e3a4e 0%, #181e2c 60%, #0a0e16 100%);
+      background: radial-gradient(circle at 38% 35%, #c0d0e0 0%, #607080 60%, #404e5c 100%);
+      box-shadow: inset 0 1px 1px rgba(200,220,240,0.4), 0 1px 2px rgba(0,0,0,0.5);
     }
     .dark .shelf-eyebrow {
-      color: rgba(130,155,190,0.75);
+      color: rgba(160,175,195,0.85);
       text-shadow: 0 1px 1px rgba(0,0,0,0.7);
-      background: linear-gradient(170deg, #161e2c 0%, #101620 28%, #141c28 48%, #0c1018 72%, #121a24 100%);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.6), inset 0 1px 0 rgba(140,165,200,0.08), inset 0 -1px 0 rgba(0,0,0,0.45);
+      background: linear-gradient(170deg, #2a2c38 0%, #1e2028 28%, #343040 48%, #1a1c24 72%, #282a36 100%);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.6), inset 0 1px 0 rgba(180,185,210,0.12), inset 0 -1px 0 rgba(0,0,0,0.45);
     }
     .dark .shelf-eyebrow::before, .dark .shelf-eyebrow::after {
-      background: radial-gradient(circle at 38% 35%, #222e40 0%, #141e2c 60%, #08101a 100%);
+      background: radial-gradient(circle at 38% 35%, #8a8ea8 0%, #4a4e62 60%, #2e3040 100%);
+      box-shadow: inset 0 1px 1px rgba(180,185,210,0.35), 0 1px 2px rgba(0,0,0,0.5);
     }
 .faceout-plank {
       height: 0.5rem; background: var(--shelf-plank2); border-radius: 0.5px;
@@ -1192,8 +1233,11 @@
       color: var(--text-1); outline: none;
       transition: border-color var(--transition);
     }
-    .comment-input:focus { border-color: var(--accent); }
+    .comment-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-bg); }
     .comment-input::placeholder { color: var(--text-3); }
+    .dark .comment-input { background: #1a2535; border-color: rgba(60,90,130,0.25); color: #d0e0ee; }
+    .dark .comment-input::placeholder { color: #3e5468; }
+    .dark .comment-input:focus { border-color: #4a8ec0; box-shadow: 0 0 0 3px rgba(74,142,192,0.12); }
     .comment-submit {
       padding: 0.6rem 1rem; border-radius: var(--radius-sm);
       font-size: 12px; font-weight: 900; font-family: var(--font-body);
@@ -1203,7 +1247,10 @@
     }
     .comment-submit:hover { background: var(--accent); }
     .comment-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .dark .comment-submit { background: #3a6890; }
+    .dark .comment-submit:hover { background: #4a80aa; }
     .comment-login-hint { font-size: 12px; color: var(--text-3); text-align: center; padding: 0.5rem 0; }
+    .dark .comment-login-hint { color: #3e5468; }
 
     @media (max-width: 900px) {
       .shelf-box-outer { border-left-width: 12px; border-right-width: 12px; border-radius: 1.5rem; }
@@ -1229,10 +1276,10 @@
       .modal-left { width: 100%; height: 11rem; min-height: unset; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
       .featured-grid { grid-template-columns: repeat(4, 1fr) !important; }
     }
-    .dark .book-3d { filter: saturate(0.6) brightness(0.78) drop-shadow(0 4px 12px rgba(0,0,10,0.85)); }
+    .dark .book-3d { filter: saturate(0.85) brightness(0.88) drop-shadow(0 4px 12px rgba(0,0,10,0.85)); }
     .dark .featured-book img { filter: none; }
     .dark .featured-book-wrap:hover .featured-book img { filter: none; }
-    .dark .book-slot.hovered .book-3d { filter: saturate(0.8) brightness(0.95) drop-shadow(0 6px 16px rgba(0,10,40,0.8)); }
+    .dark .book-slot.hovered .book-3d { filter: saturate(1.0) brightness(1.1) drop-shadow(0 6px 16px rgba(0,10,40,0.8)); }
     .dark .book-title-text { color: #ffffff !important; text-shadow: 0 1px 4px rgba(0,0,0,0.60) !important; }
 
     /* ── DARK MODE 우주정거장 전체 UI ─────────────────────────── */
@@ -1247,11 +1294,14 @@
     .dark .brand-icon { color: #4888cc; }
     /* 필터바 */
     .dark .filter-bar { background: #545c64; border-color: rgba(120,132,142,0.30); }
+    /* 라벨: 반투명 배경 배지 */
     .dark .filter-label { color: #e8f0f6; background: rgba(255,255,255,0.14); border-color: rgba(220,230,240,0.28); }
     .dark .sort-label-inline { color: #e8f0f6; background: rgba(255,255,255,0.14); border-color: rgba(220,230,240,0.28); }
-    .dark .pill { color: #d0dce6; opacity: 1; }
-    .dark .pill:hover { background: rgba(255,255,255,0.14); color: #eef4f8; opacity: 1; }
-    .dark .pill.active { background: rgba(255,255,255,0.22); color: #ffffff; border-color: rgba(255,255,255,0.42); opacity: 1; }
+    /* 비활성 pill: 배경 없이 텍스트만 */
+    .dark .pill { color: #1c2830; background: transparent; border-color: transparent; opacity: 1; }
+    .dark .pill:hover { background: rgba(255,255,255,0.15); color: #0e1820; opacity: 1; }
+    /* 활성 pill: 딥 네이비 + 밝은 텍스트 — 확실하게 선택됨 */
+    .dark .pill.active { background: #1a2d48; color: #c8e0f8; border-color: rgba(80,140,210,0.40); box-shadow: 0 2px 8px rgba(0,0,0,0.30); opacity: 1; }
     .dark .result-count { color: #c0ccd4; }
     .dark .result-count strong { color: #ffd580; }
     .dark .reset-btn { color: #ffd580; background: rgba(255,210,80,0.12); border-color: rgba(255,210,80,0.28); }
@@ -1270,7 +1320,14 @@
     .dark .sort-btn { color: #b8c8d4; opacity: 0.85; }
     .dark .sort-btn.active { background: rgba(0,0,0,0.28); color: #e8f2f8; opacity: 1; box-shadow: none; }
     /* 필터 배지 */
-    .dark #filter-active-badge { color: #6a7880 !important; background: rgba(80,95,108,0.09) !important; border-color: rgba(80,95,108,0.28) !important; }
+    .filter-active-badge {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+      color: var(--text-2); background: var(--surface);
+      border: 1px dashed var(--border-2);
+      padding: 0.25rem 0.75rem; border-radius: 20px;
+      white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .dark .filter-active-badge { color: #c0ccd6; background: rgba(255,255,255,0.10); border-color: rgba(200,215,230,0.25); box-shadow: none; }
     /* 통계카드 */
     .dark .stats-card { background: #0e1216; border-color: rgba(70,82,92,0.14); }
     .dark .rxn-box { background: #1a2535; border-color: rgba(60,90,130,0.22); }
@@ -1281,6 +1338,21 @@
     .dark .comment-item { background: rgba(0,0,0,0.18); border-color: rgba(0,0,0,0.16); }
     /* 피쳐드 보드 */
     .dark .featured-board { background: linear-gradient(160deg, #0c1014 0%, #090c10 100%); border-color: #181c20; }
+    .dark .featured-board-header .label-tag {
+      background: linear-gradient(135deg, #5a6470 0%, #8a9aaa 30%, #c0d0de 50%, #a0b0c0 70%, #606e7a 100%);
+      background-size: 200% auto;
+      animation: silverSheen 3s linear infinite;
+      color: rgba(10,18,28,0.9);
+    }
+    .dark .featured-board-header .label-ko { color: #c0d0de; }
+    @keyframes silverSheen {
+      0%   { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+    .dark .shelf-plank {
+      background: linear-gradient(to bottom, #343040 0%, #28262e 40%, #1e1c24 100%) !important;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.55), inset 0 1px 0 rgba(160,160,190,0.10) !important;
+    }
 
     /* 통계 패널 */
     .stats-overlay {
@@ -1675,7 +1747,7 @@ const CONFIG = {
               <input class="search-input" id="search-input" type="text" placeholder="이야기 제목 검색…" autocomplete="off">
             </div>
             <span class="result-count" id="result-count">전체 <strong>0</strong>권</span>
-            <span id="filter-active-badge" style="display:none;font-size:10px;font-weight:700;letter-spacing:0.06em;color:#888;background:#fff;border:1px dashed #ccc;padding:0.25rem 0.75rem;border-radius:20px;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,0.06);"></span>
+            <span id="filter-active-badge" class="filter-active-badge" style="display:none;"></span>
             <button class="reset-btn" id="reset-btn">필터 초기화</button>
           </div>
           <div class="sort-footer-group">
@@ -1688,7 +1760,7 @@ const CONFIG = {
               <button class="sort-btn" data-sort="좋아요순">좋아요순</button>
             </div>
             <button class="shuffle-btn" id="random-btn" data-tooltip="랜덤 추천">
-              <svg id="random-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="none" style="transition:transform 0.3s ease">
+              <svg id="random-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="none" style="transition:transform 0.3s ease; flex-shrink:0">
                 <!-- dome -->
                 <path d="M9 10 Q9 5 12 5 Q15 5 15 10z" fill="#74c0fc"/>
                 <path d="M10 9.5 Q10 7 12 7 Q13.5 7 14 9" stroke="white" stroke-width="0.7" stroke-linecap="round" opacity="0.7"/>
@@ -2975,27 +3047,120 @@ function buildStarField() {
   const sf = document.createElement('div');
   sf.id = 'star-field';
   const W = window.innerWidth, H = window.innerHeight;
-  // 세 가지 레이어: 작고 흐린 별 80개 / 중간 별 45개 / 밝고 빛나는 별 15개
+
+  // ── 별 3레이어 ──
   const layers = [
-    { count: 80, minOp: 0.10, maxOp: 0.35, blur: 0, spread: 0 },
-    { count: 45, minOp: 0.35, maxOp: 0.65, blur: 0, spread: 0, twinkle: true },
-    { count: 15, minOp: 0.70, maxOp: 1.00, blur: 1, spread: 1, twinkle: true },
+    { count: 130, minOp: 0.06, maxOp: 0.28, blur: 0, spread: 0 },
+    { count: 70,  minOp: 0.30, maxOp: 0.65, blur: 0, spread: 0, twinkle: true },
+    { count: 25,  minOp: 0.70, maxOp: 1.00, blur: 1, spread: 1, twinkle: true },
   ];
-  layers.forEach(({ count, minOp, maxOp, blur, spread, twinkle }) => {
+  const driftAnims = ['starDrift1','starDrift2','starDrift3'];
+  const floatAnims = ['cosmicFloat1','cosmicFloat2','cosmicFloat3','cosmicFloat4'];
+  layers.forEach(({ count, minOp, maxOp, blur, spread, twinkle }, li) => {
     const shadows = [];
     for (let i = 0; i < count; i++) {
       const x = Math.floor(Math.random() * W);
       const y = Math.floor(Math.random() * H);
       const op = (minOp + Math.random() * (maxOp - minOp)).toFixed(2);
-      shadows.push(`${x}px ${y}px ${blur}px ${spread}px rgba(210,225,255,${op})`);
+      const tint = Math.random();
+      const col = tint < 0.15 ? `180,210,255` : tint < 0.25 ? `255,240,180` : `210,225,255`;
+      shadows.push(`${x}px ${y}px ${blur}px ${spread}px rgba(${col},${op})`);
     }
     const dot = document.createElement('div');
     dot.className = 'star-layer' + (twinkle ? ' twinkle' : '');
-    dot.style.setProperty('--dur', (2.5 + Math.random() * 3).toFixed(1) + 's');
-    dot.style.setProperty('--delay', (Math.random() * 2).toFixed(1) + 's');
+    const twinkleDur = (2 + Math.random() * 4).toFixed(1) + 's';
+    const twinkleDelay = (Math.random() * 3).toFixed(1) + 's';
+    // 별 레이어별 드리프트 속도 다르게 (원근감)
+    const driftDur = [100, 75, 55][li];
+    const driftAnim = driftAnims[li % driftAnims.length];
+    const driftDelay = (Math.random() * 20).toFixed(1) + 's';
+    if (twinkle) {
+      dot.style.animation = `star-twinkle ${twinkleDur} ease-in-out ${twinkleDelay} infinite, ${driftAnim} ${driftDur}s ease-in-out ${driftDelay} alternate infinite`;
+    } else {
+      dot.style.animation = `${driftAnim} ${driftDur}s ease-in-out ${driftDelay} alternate infinite`;
+    }
     dot.style.boxShadow = shadows.join(',');
     sf.appendChild(dot);
   });
+
+  // ── 유성(슈팅스타) 3~6개 — 위치/딜레이/속도 완전 랜덤 ──
+  const shootCount = 3 + Math.floor(Math.random() * 4);
+  const shootAngles = [-45, -32, -20, -55, -15];
+  for (let i = 0; i < shootCount; i++) {
+    const el = document.createElement('div');
+    el.className = 'shooting-star';
+    el.style.left  = Math.floor(Math.random() * W) + 'px';
+    el.style.top   = Math.floor(Math.random() * H * 0.7) + 'px';
+    el.style.transform = `rotate(${shootAngles[Math.floor(Math.random()*shootAngles.length)]}deg)`;
+    el.style.setProperty('--delay', (Math.random() * 28).toFixed(1) + 's');
+    el.style.setProperty('--dur',   (0.8 + Math.random() * 2.0).toFixed(1) + 's');
+    // 일부는 더 밝게
+    if (Math.random() > 0.5) el.style.opacity = (0.5 + Math.random() * 0.5).toFixed(2);
+    sf.appendChild(el);
+  }
+
+  // ── 행성 3~5개 ──
+  // ── 태양계 행성 (수금지화목토천해명) ──
+  const sc = Math.min(W, H) / 900; // 뷰포트 기준 배율
+  const solarPlanets = [
+    { name:'수성', sz:10,  ring:false,
+      bg:`radial-gradient(circle at 35% 30%, #b0a898 0%, #787060 50%, #4a4038 100%)`,
+      glow:'140,130,120' },
+    { name:'금성', sz:25,  ring:false,
+      bg:`radial-gradient(circle at 38% 28%, #f5e8a8 0%, #d4a84c 48%, #9a7018 100%)`,
+      glow:'220,180,60' },
+    { name:'지구', sz:27,  ring:false,
+      bg:`radial-gradient(circle at 34% 28%, #98d0f8 0%, #2070d8 45%, #184898 100%)`,
+      glow:'50,120,230' },
+    { name:'화성', sz:16,  ring:false,
+      bg:`radial-gradient(circle at 32% 30%, #d89070 0%, #a84828 55%, #6c2c14 100%)`,
+      glow:'190,80,40' },
+    { name:'목성', sz:90,  ring:false,
+      bg:`repeating-linear-gradient(180deg,rgba(140,70,18,0.22) 0px,rgba(140,70,18,0.22) 5px,transparent 5px,transparent 11px,rgba(200,130,50,0.16) 11px,rgba(200,130,50,0.16) 16px,transparent 16px,transparent 22px),radial-gradient(circle at 36% 30%, #ead09a 0%, #c89050 38%, #a06820 100%)`,
+      glow:'210,150,60' },
+    { name:'토성', sz:72,  ring:true,  ringTilt:22, ringColor:'200,170,80',
+      bg:`repeating-linear-gradient(180deg,rgba(180,150,60,0.14) 0px,rgba(180,150,60,0.14) 5px,transparent 5px,transparent 12px),radial-gradient(circle at 35% 28%, #eed898 0%, #c8a848 50%, #987020 100%)`,
+      glow:'210,175,80' },
+    { name:'천왕성', sz:46, ring:true, ringTilt:80, ringColor:'100,210,240',
+      bg:`radial-gradient(circle at 36% 30%, #e0f8fc 0%, #7ad4ec 50%, #3898c0 100%)`,
+      glow:'80,210,240' },
+    { name:'해왕성', sz:44, ring:false,
+      bg:`radial-gradient(circle at 32% 28%, #7898fc 0%, #2848e0 50%, #101878 100%)`,
+      glow:'60,80,250' },
+    { name:'명왕성', sz:7,  ring:false,
+      bg:`radial-gradient(circle at 35% 30%, #ceb898 0%, #907860 55%, #5a4838 100%)`,
+      glow:'155,130,100' },
+  ];
+  solarPlanets.forEach(pt => {
+    const size = pt.sz * sc * (0.82 + Math.random() * 0.36);
+    const el   = document.createElement('div');
+    el.className = 'planet';
+    el.style.width      = size + 'px';
+    el.style.height     = size + 'px';
+    el.style.left       = (Math.random() * (W + size * 0.5) - size * 0.25) + 'px';
+    el.style.top        = (Math.random() * (H + size * 0.5) - size * 0.25) + 'px';
+    el.style.background = pt.bg;
+    el.style.opacity    = (0.30 + Math.random() * 0.50).toFixed(2);
+    el.style.boxShadow  = `0 0 ${size*0.55}px rgba(${pt.glow},0.20), inset 0 0 ${size*0.3}px rgba(0,0,0,0.50)`;
+    if (pt.ring) {
+      const ring = document.createElement('div');
+      ring.className = 'planet-ring';
+      const rw = size * 2.5, rh = size * 0.32;
+      ring.style.cssText =
+        `width:${rw}px;height:${rh}px;left:${-(rw-size)/2}px;top:${size*0.34}px;` +
+        `border:${Math.max(1.5, size*0.055)}px solid rgba(${pt.ringColor||pt.glow},0.50);` +
+        `background:transparent;transform:rotate(${-pt.ringTilt}deg);`;
+      el.appendChild(ring);
+    }
+    if (Math.random() > 0.45) {
+      const fa  = floatAnims[Math.floor(Math.random() * floatAnims.length)];
+      const dur = (95 + Math.random() * 115).toFixed(0);
+      const del = (Math.random() * 55).toFixed(1);
+      el.style.animation = `${fa} ${dur}s ease-in-out ${del}s alternate infinite`;
+    }
+    sf.appendChild(el);
+  });
+
   document.body.insertBefore(sf, document.body.firstChild);
 }
 
